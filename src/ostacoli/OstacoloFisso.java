@@ -5,18 +5,13 @@ import geometria.Rettangolo;
 import java.awt.Color;
 
 /** L'ostacolo fisso: un muretto grigio che non si rompe mai. Colpito, non cambia niente. */
-public class OstacoloFisso implements Ostacolo {
+public class OstacoloFisso extends OstacoloFermo {
     public static final Color GRIGIO = new Color(150, 150, 150);
-
-    private final Rettangolo area;
 
     /** Pretende: area non è null. */
     public OstacoloFisso(Rettangolo area) {
-        this.area = area;
+        super(area);
     }
-
-    @Override
-    public Rettangolo getArea() { return area; }
 
     /** Non è mai rotto, quindi non lancia mai l'eccezione; e il colpo non cambia niente. */
     @Override
@@ -29,9 +24,4 @@ public class OstacoloFisso implements Ostacolo {
 
     @Override
     public Color getColore() { return GRIGIO; }
-
-    @Override
-    public void avanza() {
-        // niente: è fermo
-    }
 }

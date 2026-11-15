@@ -8,27 +8,23 @@ import java.awt.Color;
  * L'ostacolo fragile: si rompe dopo un certo numero di colpi, deciso quando lo si crea.
  * A ogni colpo il suo colore si schiarisce, così si vede che sta per rompersi.
  */
-public class OstacoloFragile implements Ostacolo {
+public class OstacoloFragile extends OstacoloFermo {
     /** Il colore di un ostacolo fragile mai colpito. */
     public static final Color COLORE_INTEGRO = new Color(60, 120, 230);
 
-    private final Rettangolo area;
     private final int colpiPerRompersi;
     private int colpiRimasti;
 
     /** Pretende: area non è null e colpi è almeno 1. Promette: un ostacolo che si rompe dopo colpi colpi. */
     public OstacoloFragile(Rettangolo area, int colpi) {
-        this.area = area;
+        super(area);
         this.colpiPerRompersi = colpi;
         this.colpiRimasti = colpi;
     }
 
     @Override
-    public Rettangolo getArea() { return area; }
-
-    @Override
     public void colpisci(Ostacoli campo) {
-        if (isRotto()) throw new IllegalStateException("l'ostacolo fragile in " + area + " è già rotto");
+        if (isRotto()) throw new IllegalStateException("l'ostacolo fragile in " + getArea() + " è già rotto");
         colpiRimasti--;
     }
 
@@ -40,11 +36,6 @@ public class OstacoloFragile implements Ostacolo {
     public Color getColore() {
         double schiarito = (double) (colpiPerRompersi - colpiRimasti) / colpiPerRompersi;
         return verso(COLORE_INTEGRO, Color.WHITE, schiarito * 0.75);
-    }
-
-    @Override
-    public void avanza() {
-        // niente: è fermo
     }
 
     /**

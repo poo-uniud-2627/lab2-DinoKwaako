@@ -16,21 +16,17 @@ import java.awt.Color;
  *
  * IL PEZZO MANCANTE: i corpi dei metodi segnati «scrivete qui» e i campi che vi servono.
  */
-public class OstacoloEsplosivo implements Ostacolo {
+public class OstacoloEsplosivo extends OstacoloFermo {
     /** Fin dove arriva l'esplosione: PORTATA pixel oltre ogni lato dell'ostacolo. */
     public static final double PORTATA = 30;
     public static final Color COLORE = new Color(235, 90, 40);
 
-    private final Rettangolo area;
     private boolean rotto;
 
     /** Pretende: area non è null. Promette: un ostacolo esplosivo non rotto. */
     public OstacoloEsplosivo(Rettangolo area) {
-        this.area = area;
+        super(area);
     }
-
-    @Override
-    public Rettangolo getArea() { return area; }
 
     /**
      * Oltre al contratto di Ostacolo: il primo colpo lo rompe, e quando si rompe l'ostacolo
@@ -38,9 +34,9 @@ public class OstacoloEsplosivo implements Ostacolo {
      */
     @Override
     public void colpisci(Ostacoli campo) {
-        if (rotto) throw new IllegalStateException("l'ostacolo esplosivo in " + area + " è già rotto");
+        if (rotto) throw new IllegalStateException("l'ostacolo esplosivo in " + getArea() + " è già rotto");
         rotto = true;
-        campo.colpisciAttorno(area.allargato(PORTATA));
+        campo.colpisciAttorno(getArea().allargato(PORTATA));
     }
 
     @Override
@@ -52,10 +48,5 @@ public class OstacoloEsplosivo implements Ostacolo {
     @Override
     public Color getColore() {
         return COLORE;
-    }
-
-    @Override
-    public void avanza() {
-        // niente: è fermo
     }
 }
